@@ -1,6 +1,6 @@
 import { CarState } from "../redux/CarsSlice";
 
-let api_uri = 'http://127.0.0.1:5000/api/cars'
+let api_uri = 'https://carinventoryapp.herokuapp.com/api/cars'
 let token = '994e594d34e74896e47274c84ca7fd02115b8e83a03483af';
 
 export interface CarData{
