@@ -1,10 +1,9 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider } from "@mui/material"
-import { deleteCar, CarState } from "../../../redux/CarsSlice";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material"
+import { deleteBook, BookState } from "../../../redux/BooksSlice";
 import { store } from "../../../redux/store";
-import {FormProvider, useForm } from 'react-hook-form';
-import { FormInput } from "../../SharedComponents/FormInput";
-import { car_api } from "../../../api";
-import { useState } from "react";
+import { useForm } from 'react-hook-form';
+import { book_api } from "../../../api";
+
 
 
 interface DeleteFormProps{
@@ -12,21 +11,21 @@ interface DeleteFormProps{
     onClose:()=>void;
     onError:(message:string)=>void;
     onSuccess:(message:string)=>void;
-    vin:string;
+    isbn:string;
 }
 
 export const DeleteForm = (props:DeleteFormProps) =>{
 
-    const formMethods = useForm<CarState>({});
+    const formMethods = useForm<BookState>({});
     const {handleSubmit} = formMethods;
 
     const onSubmit = async() => {
         
         props.onClose();
-        car_api.delete(props.vin).then(
+        book_api.delete(props.isbn).then(
             //Successful API call - update redux store by removing value in database
             (car)=>{
-                store.dispatch(deleteCar(props.vin));
+                store.dispatch(deleteBook(props.isbn));
                 props.onSuccess('Database updated successfully.')
             },
             //Unsuccessful API call - don't update redux store, log error
@@ -35,18 +34,11 @@ export const DeleteForm = (props:DeleteFormProps) =>{
 
     }
 
-    const formStyles = {
-        display:'flex',
-        flexDirection:'column',
-        pt:0,
-        '& input':{p:'5px'}
-    }
-
     return(
         <Dialog open={props.open} onClose={props.onClose} aria-labelledby="form-overwrite-title">
-            <DialogTitle id="form-overwrite-title">Delete Car?</DialogTitle>
+            <DialogTitle id="form-overwrite-title">Delete Book?</DialogTitle>
             <DialogContent>
-                <DialogContentText>{`Are you sure you want to delete the car with vin:${props.vin}? This action can not be undone.`}</DialogContentText>
+                <DialogContentText>{`Are you sure you want to delete the book with ISBN:${props.isbn}? This action can not be undone.`}</DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button onClick={props.onClose} variant='outlined'>Cancel</Button>

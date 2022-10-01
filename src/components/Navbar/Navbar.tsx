@@ -11,7 +11,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Link } from '@mui/material';
-import { useTheme } from '@mui/system';
+import { useTheme } from '@mui/material';
 import { NavButton } from '../SharedComponents';
 import { Logo } from '../Logo';
 
@@ -31,7 +31,7 @@ export const Navbar = (props:NavbarProps)=>{
     const navItems:NavItem[]=[
         {label:'About', path:'/about'},
         {label:'Contact', path:'/contact'},
-        {label:'My Dashboard', path:'/dashboard'}
+        {label:'My Bookshelf', path:'/dashboard'}
     ]
 
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -63,7 +63,7 @@ export const Navbar = (props:NavbarProps)=>{
                 {navItems.map((item)=>(
                     <ListItem key={item.label} sx={{p:0}}>
                         <ListItemButton href={item.path} sx={{p:0}}>
-                            <ListItemText primary={item.label}/>
+                            <ListItemText primary={item.label} sx={{pl:'8px'}}/>
                         </ListItemButton>
                     </ListItem>
                 ))}

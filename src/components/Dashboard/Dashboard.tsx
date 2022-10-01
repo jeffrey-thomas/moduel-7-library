@@ -1,37 +1,38 @@
-import { Box } from '@mui/system'
+import { Box } from '@mui/material'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { CarState, loadAllCars, selectCars, selectCarStatus } from '../../redux/CarsSlice'
+import { BookState, loadAllBooks, selectBooks, selectBookStatus } from '../../redux/BooksSlice'
 import { store } from '../../redux/store'
 import { UpdateForm } from './UpdateForm'
-import { CarTable } from './CarTable'
+import { BookTable } from './BookTable'
 import { DashboardAlert, DashboardAlertDefaultState } from './DashboardAlert'
 import { CreateForm } from './CreateForm'
 import { Button } from '@mui/material'
 import { DeleteForm } from './DeleteForm'
 
-const defaultCar:CarState = {
-  vin:'VIN',
-  make:'MAKE',
-  model:'MODEL',
+const defaultBook:BookState = {
+  isbn:'ISBN',
+  author:'AUTHOR',
+  title:'TITLE',
   year:2022,
-  color:'COLOR'
+  length:1,
+  hardcover:false
 }
 
 export const Dashboard = () => {
 
   //Get list of cars from redux store, load from database if needed
-  let cars = useSelector(selectCars);
-  let loading_status = useSelector(selectCarStatus);
+  let books = useSelector(selectBooks);
+  let loading_status = useSelector(selectBookStatus);
   if(loading_status === 'unloaded')
-    store.dispatch(loadAllCars());
+    store.dispatch(loadAllBooks());
 
   //UpdateForm
   const [updateFormOpen, setUpdateFormOpen] = useState(false);
-  const [carToUpdate, setCarToUpdate] = useState(defaultCar);
+  const [bookToUpdate, setBookToUpdate] = useState(defaultBook);
 
-  const handleUpdateOpen = (car:CarState)=>{
-    setCarToUpdate(car);
+  const handleUpdateOpen = (book:BookState)=>{
+    setBookToUpdate(book);
     setUpdateFormOpen(true);
   }
   const handleUpdateClose = ()=>{ setUpdateFormOpen(false); }
@@ -43,15 +44,15 @@ export const Dashboard = () => {
 
   //DeleteForm
   const [ deleteFormOpen, setDeleteFormOpen ] = useState(false);
-  const handleDeleteOpen = (car:CarState)=>{ 
-    setCarToUpdate(car);
+  const handleDeleteOpen = (book:BookState)=>{ 
+    setBookToUpdate(book);
     setDeleteFormOpen(true);}
   const handleDeleteClose = ()=>{ setDeleteFormOpen(false); }
 
   //Controls for success/failure alert
   const [alert, setAlert] = useState(DashboardAlertDefaultState);
 
-  const showAlert =()=>{ setAlert({...alert, open:true}); }
+  // const showAlert =()=>{ setAlert({...alert, open:true}); }
 
   const hideAlert = ()=>{ setAlert({...alert, open:false}); }
 
@@ -88,26 +89,26 @@ export const Dashboard = () => {
           
       <DashboardAlert open={alert.open} severity={alert.severity} message={alert.message} onClose={hideAlert}/> 
 
-      <h1>My Car Inventory</h1>
+      <h1>My Digital Bookshelf</h1>
       
-      <CarTable 
-        carData={cars} 
+      <BookTable 
+        bookData={books} 
         onEditButtonClick={handleUpdateOpen} 
         onDeleteButtonClick={handleDeleteOpen}
         footerContents = 
-          <Button variant='contained' color='secondary' onClick={handleCreateOpen} sx={{ml:'8px'}}>Create New Car</Button>
+          <Button variant='contained' color='secondary' onClick={handleCreateOpen} sx={{ml:'8px'}}>Add New Book</Button>
         />
 
 
       { 
         updateFormOpen && //Rerender when the form is opened to repopulate the form's default values
-        <UpdateForm open={updateFormOpen} onClose={handleUpdateClose} onError={alertError} onSuccess={alertSuccess} car={carToUpdate}/> 
+        <UpdateForm open={updateFormOpen} onClose={handleUpdateClose} onError={alertError} onSuccess={alertSuccess} book={bookToUpdate}/> 
       }
       {
         createFormOpen && //Rerender when the form is opened to empty the fields
         <CreateForm open={createFormOpen} onClose={handleCreateClose} onError={alertError} onSuccess={alertSuccess} />
       }
-      <DeleteForm open={deleteFormOpen} onClose={handleDeleteClose} onError={alertError} onSuccess={alertSuccess} vin={carToUpdate.vin}/>
+      <DeleteForm open={deleteFormOpen} onClose={handleDeleteClose} onError={alertError} onSuccess={alertSuccess} isbn={bookToUpdate.isbn}/>
 
     </Box>
   )

@@ -13,20 +13,20 @@ export const theme = createTheme({
     },
     palette: {
         primary: {
-            main: '#222288',
+            main: '#882222',
             contrastText: '#f2f2f2',
           },
           secondary: {
-            main: '#3366cc',
+            main: '#cc4444',
           },
           text: {
-            primary: 'rgba(10,10,41,0.8)',
+            primary: 'rgba(41,10,10,0.8)',
             secondary: 'rgba(0,0,0,0.6)',
             disabled: 'rgba(0,0,0,0.3)',
           },
           background: {
-            paper: '#d9d9d9',
-            default: '#f2f2f2',
+            paper: '#e7d9d9',
+            default: '#fff2f2',
           },
         },
         typography: {

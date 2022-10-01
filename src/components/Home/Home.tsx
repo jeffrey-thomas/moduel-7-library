@@ -1,5 +1,5 @@
-import { Box } from '@mui/system';
-import carImage from '../../images/undraw_vehicle_sale_a645.svg';
+import { Box } from '@mui/material';
+import bookshelfImage from '../../images/undraw_bookshelves_re_lxoy.svg';
 import { NavButton } from '../SharedComponents';
 
 export const Home= () => {
@@ -14,13 +14,14 @@ export const Home= () => {
 
   return (
     <Box sx={style}>
-      <h1>Car Inventory App</h1>
+      <h1>Digital Bookshelf</h1>
       <Box sx={{
-        content:`url(${carImage})`,
+        content:`url(${bookshelfImage})`,
         width:'50%',
-        height:'auto'
+        height:'auto',
+        maxHeight:'70%'
       }}></Box>
-      <NavButton to='/dashboard' variant='contained'>Go to My Inventory</NavButton>
+      <NavButton to='/dashboard' variant='contained'>Go to My Bookshelf</NavButton>
     </Box>
   )
 }

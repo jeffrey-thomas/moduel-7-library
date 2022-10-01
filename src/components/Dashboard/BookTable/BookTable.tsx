@@ -1,30 +1,31 @@
 import { Delete, Edit } from '@mui/icons-material';
 import { IconButton, Paper } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import { CarState, } from '../../../redux/CarsSlice';
-import { Box } from '@mui/system';
+import { BookState, } from '../../../redux/BooksSlice';
+import { Box } from '@mui/material';
 import { theme } from '../../../theme';
 import { PropsWithChildren, ReactElement } from 'react';
-import { CarTableFooter } from './CarTableFooter/CarTableFooter';
+import { BookTableFooter } from './BookTableFooter';
 
 
-interface CarTableProps{
-  carData:CarState[],
-  onEditButtonClick:(car:CarState)=>void,
-  onDeleteButtonClick:(car:CarState)=>void,
+interface BookTableProps{
+  bookData:BookState[],
+  onEditButtonClick:(book:BookState)=>void,
+  onDeleteButtonClick:(book:BookState)=>void,
   footerContents?:ReactElement
 }
 
-export const CarTable = (props:PropsWithChildren<CarTableProps>) => {
+export const BookTable = (props:PropsWithChildren<BookTableProps>) => {
 
-  let {carData, onEditButtonClick, onDeleteButtonClick} = props;
+  let {bookData, onEditButtonClick, onDeleteButtonClick} = props;
 
   const columns:GridColDef[] = [
-    {field:'vin', headerName:'VIN', flex:6},
-    {field:'make', headerName:'Make', flex:5},
-    {field:'model', headerName:'Model', flex:5},
+    {field:'isbn', headerName:'ISBN', flex:6},
+    {field:'title', headerName:'Title', flex:5},
+    {field:'author', headerName:'Author', flex:5},
     {field:'year', headerName:'Year', flex:2},
-    {field:'color', headerName:'Color', flex:4},
+    {field:'length', headerName:'Pages', flex:2},
+    {field:'hardcover', type:'boolean', headerName:'Hardcover', flex:2},
     {
       field:'actions', 
       headerName:'Actions', 
@@ -51,7 +52,7 @@ export const CarTable = (props:PropsWithChildren<CarTableProps>) => {
     }
   ];
   
-  const carTableStyles={
+  const bookTableStyles={
       width:'95%',
       height:'100%',
       // p:'20px',
@@ -75,19 +76,19 @@ export const CarTable = (props:PropsWithChildren<CarTableProps>) => {
   }
 
   return (
-    <Paper sx={carTableStyles}>
+    <Paper sx={bookTableStyles}>
 
       <DataGrid
         sx={{width:'100%'}}
-        rows={carData}
+        rows={bookData}
         columns={columns}
         pageSize={ 8 }
         rowsPerPageOptions={[8]}
-        getRowId={ row=>row.vin}
+        getRowId={ row=>row.isbn}
         disableSelectionOnClick={true}
         showColumnRightBorder={true}
         getRowClassName={(params)=> params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd' }
-        components={{Footer:CarTableFooter}}
+        components={{Footer:BookTableFooter}}
         componentsProps={{ footer:{ contents: props.footerContents } }}
       />
       

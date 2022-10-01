@@ -1,23 +1,24 @@
-import { CarState } from "../redux/CarsSlice";
+import { BookState } from "../redux/BooksSlice";
 
-let api_uri = 'https://carinventoryapp.herokuapp.com/api/cars'
-let token = '994e594d34e74896e47274c84ca7fd02115b8e83a03483af';
+let api_uri = 'http://127.0.0.1:5000/api/books'
+let token = 'b0729cd69b4321340d2bd00929d91e534c0dcd58b9b4a3bc';
 
-export interface CarData{
-    vin:string;
-    make?:string;
-    model?:string;
+export interface BookData{
+    isbn:string;
+    author?:string;
+    title?:string;
     year?:number;
-    color?:string;
+    length?:number;
+    hardcover?:boolean;
 }
 
-const parseJsonCar = (json:Object):CarState=>{
+const parseJsonBook = (json:Object):BookState=>{
 
-    if(!(json.hasOwnProperty('vin') && json.hasOwnProperty('make') &&  json.hasOwnProperty('model') &&
-    json.hasOwnProperty('year') && json.hasOwnProperty('color')))
+    if(!(json.hasOwnProperty('isbn') && json.hasOwnProperty('author') &&  json.hasOwnProperty('title') &&
+    json.hasOwnProperty('year') && json.hasOwnProperty('length') && json.hasOwnProperty('hardcover')))
         throw new Error("Object retrieved from database is missing one or more properties.");
 
-    return json as CarState;
+    return json as BookState;
 
 }
 
@@ -28,11 +29,11 @@ interface ApiArgs{
     token:string;
     method:CallMethod;
     id?:string;
-    car?:CarData;
+    book?:BookData;
     errMsg:string;
 }
 
-const api_call = async (args:ApiArgs):Promise<CarState | CarState[]>=>{
+const api_call = async (args:ApiArgs):Promise<BookState | BookState[]>=>{
     let uri = args.id ? `${args.uri}/${args.id}` : `${args.uri}`;
     
     let request:RequestInit = {
@@ -42,8 +43,8 @@ const api_call = async (args:ApiArgs):Promise<CarState | CarState[]>=>{
             'x-access-token': `Bearer ${args.token}`
         }
     };
-    if(args.car)
-        request.body = JSON.stringify(args.car);
+    if(args.book)
+        request.body = JSON.stringify(args.book);
 
     const response = await fetch(uri,request);
 
@@ -54,19 +55,19 @@ const api_call = async (args:ApiArgs):Promise<CarState | CarState[]>=>{
     let json = await response.json();
     
     if(Array.isArray(json))
-        return json.map((obj)=>parseJsonCar(obj))
+        return json.map((obj)=>parseJsonBook(obj))
 
-    return parseJsonCar(json);
+    return parseJsonBook(json);
 }
 
-export const car_api = {
+export const book_api = {
 
     //GET all
     getAll: ()=>api_call({
         uri:api_uri,
         token:token,
         method:'GET',
-        errMsg:'Failed to fetch cars from database server.'
+        errMsg:'Failed to fetch books from database server.'
     }),
 
     getById:(id:string)=>api_call({
@@ -74,24 +75,24 @@ export const car_api = {
         token:token,
         method:'GET',
         id:id,
-        errMsg:'Failed to fetch car from database server.'
+        errMsg:'Failed to fetch book from database server.'
     }),
 
-    create:(car:CarData)=>api_call({
+    create:(book:BookData)=>api_call({
         uri:api_uri,
         token:token,
         method:'POST',
-        car:car,
-        errMsg:'Failed to create new car in database.'
+        book:book,
+        errMsg:'Failed to create new book in database.'
     }),
 
-    update:(id:string, car:CarData)=>api_call({
+    update:(id:string, book:BookData)=>api_call({
         uri:api_uri,
         token:token,
         method:'POST',
         id:id,
-        car:car,
-        errMsg:'Failed to update car in database.'
+        book:book,
+        errMsg:'Failed to update book in database.'
     }),
 
     delete:(id:string)=>api_call({
@@ -99,7 +100,7 @@ export const car_api = {
         token:token,
         method:'DELETE',
         id:id,
-        errMsg:'Failed to delete car from database.'
+        errMsg:'Failed to delete book from database.'
     })
 
 }

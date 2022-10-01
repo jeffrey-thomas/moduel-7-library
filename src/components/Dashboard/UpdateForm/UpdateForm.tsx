@@ -1,9 +1,10 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider } from "@mui/material"
-import { CarState, updateCar } from "../../../redux/CarsSlice";
+import { BookState, updateBook } from "../../../redux/BooksSlice";
 import { store } from "../../../redux/store";
 import {FormProvider, useForm } from 'react-hook-form';
 import { FormInput } from "../../SharedComponents/FormInput";
-import { car_api } from "../../../api";
+import { book_api } from "../../../api";
+import { FormCheckbox } from "../../SharedComponents";
 
 
 interface UpdateFormProps{
@@ -11,22 +12,22 @@ interface UpdateFormProps{
     onClose:()=>void;
     onError:(message:string)=>void;
     onSuccess:(message:string)=>void;
-    car:CarState;
+    book:BookState;
 }
 
 export const UpdateForm = (props:UpdateFormProps) =>{
 
-    const methods = useForm<CarState>({});
+    const methods = useForm<BookState>({});
     const {handleSubmit} = methods;
     
-    const onSubmit = async(data:CarState) => {
-        data.vin = props.car.vin;
+    const onSubmit = async(data:BookState) => {
+        data.isbn = props.book.isbn;
         props.onClose();
-        car_api.update(data.vin,data).then(
+        book_api.update(data.isbn,data).then(
             //Successful API call - update redux store with value in database
-            (car)=>{
-                store.dispatch(updateCar(car as CarState));
-                props.onSuccess('Car updated successfully.')
+            (book)=>{
+                store.dispatch(updateBook(book as BookState));
+                props.onSuccess('Book updated successfully.')
             },
             //Unsuccessful API call - don't update redux store, log error
             (error:Error)=>{props.onError('Connection to database failed.')}
@@ -43,18 +44,19 @@ export const UpdateForm = (props:UpdateFormProps) =>{
 
     return(
         <Dialog open={props.open} onClose={props.onClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Update Car</DialogTitle>
+            <DialogTitle id="form-dialog-title">Update Book</DialogTitle>
             <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <DialogContent sx={formStyles}>
                 
-                    <DialogContentText>VIN: {props.car? props.car.vin : 'UNKNOWN'}</DialogContentText>
+                    <DialogContentText>ISBN: {props.book? props.book.isbn : 'UNKNOWN'}</DialogContentText>
                     <Divider sx={{mb:'20px'}}/>
-
-                    <FormInput field="make" defaultValue={props.car.make}>Make</FormInput>
-                    <FormInput field="model" defaultValue={props.car.model}>Model</FormInput>
-                    <FormInput field="year" numeric={true} defaultValue={props.car.year}>Year</FormInput>
-                    <FormInput field="color" defaultValue={props.car.color}>Color</FormInput>
+{}
+                    <FormInput field="author" defaultValue={props.book.author}>Author</FormInput>
+                    <FormInput field="title" defaultValue={props.book.title}>Title</FormInput>
+                    <FormInput field="year" numeric={true} defaultValue={props.book.year}>Year</FormInput>
+                    <FormInput field="length" numeric={true} defaultValue={props.book.length}>Length</FormInput>
+                    <FormCheckbox field="hardcover" label="Hardcover" defaultChecked={props.book.hardcover}/>
                   
                 </DialogContent>
                 <DialogActions>

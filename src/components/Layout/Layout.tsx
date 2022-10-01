@@ -1,4 +1,4 @@
-import { Box } from '@mui/system'
+import { Box } from '@mui/material'
 import { Outlet } from 'react-router-dom'
 import { Navbar } from '../Navbar'
 
