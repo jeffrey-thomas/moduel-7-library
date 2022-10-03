@@ -12,7 +12,8 @@ interface BookTableProps{
   bookData:BookState[],
   onEditButtonClick:(book:BookState)=>void,
   onDeleteButtonClick:(book:BookState)=>void,
-  footerContents?:ReactElement
+  footerContents?:ReactElement,
+  loading?:boolean
 }
 
 export const BookTable = (props:PropsWithChildren<BookTableProps>) => {
@@ -82,6 +83,7 @@ export const BookTable = (props:PropsWithChildren<BookTableProps>) => {
         sx={{width:'100%'}}
         rows={bookData}
         columns={columns}
+        loading={props.loading}
         pageSize={ 8 }
         rowsPerPageOptions={[8]}
         getRowId={ row=>row.isbn}

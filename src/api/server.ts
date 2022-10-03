@@ -1,6 +1,6 @@
 import { BookState } from "../redux/BooksSlice";
 
-let api_uri = 'http://127.0.0.1:5000/api/books'
+let api_uri = 'https://ct-library-project.herokuapp.com/api/books'
 let token = 'b0729cd69b4321340d2bd00929d91e534c0dcd58b9b4a3bc';
 
 export interface BookData{

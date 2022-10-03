@@ -14,25 +14,15 @@ import { Link } from '@mui/material';
 import { useTheme } from '@mui/material';
 import { NavButton } from '../SharedComponents';
 import { Logo } from '../Logo';
-
-interface NavItem{
-    label:string;
-    path:string;
-}
+import { GoogleSignInButton } from '../Authorization/GoogleSignInButton';
+import { CheckAuth } from '../Authorization/CheckAuth';
+import { SignOutButton } from '../Authorization/SignOutButton';
 
 interface NavbarProps{
     height:string;
 }
 
 export const Navbar = (props:NavbarProps)=>{
-
-
-
-    const navItems:NavItem[]=[
-        {label:'About', path:'/about'},
-        {label:'Contact', path:'/contact'},
-        {label:'My Bookshelf', path:'/dashboard'}
-    ]
 
     const [drawerOpen, setDrawerOpen] = useState(false);
     const theme = useTheme();
@@ -45,11 +35,7 @@ export const Navbar = (props:NavbarProps)=>{
             alignItems:'center',
 
         },
-        // logo:{
-        //     content:`url(${logo})`,
-        //     color:theme.palette.primary.contrastText,
-        //     '&:hover':{backgroundColor:theme.palette.secondary}            
-        // },
+
         navButton:{
             color:theme.palette.primary.contrastText
         }
@@ -60,13 +46,37 @@ export const Navbar = (props:NavbarProps)=>{
     const drawer = (
         <Box onClick={handleDrawerToggle}>
             <List>
-                {navItems.map((item)=>(
-                    <ListItem key={item.label} sx={{p:0}}>
-                        <ListItemButton href={item.path} sx={{p:0}}>
-                            <ListItemText primary={item.label} sx={{pl:'8px'}}/>
-                        </ListItemButton>
-                    </ListItem>
-                ))}
+                <ListItem key='about' sx={{p:0}}>
+                    <ListItemButton href='/about' sx={{p:0}}>
+                        <ListItemText primary='About' sx={{pl:'8px'}}/>
+                    </ListItemButton>
+                </ListItem>
+                <ListItem key='contact' sx={{p:0}}>
+                    <ListItemButton href='/contact' sx={{p:0}}>
+                        <ListItemText primary='Contact' sx={{pl:'8px'}}/>
+                    </ListItemButton>
+                </ListItem>
+                <CheckAuth
+                    onAuthorized={
+                        <Box>
+                        <ListItem key='dashboard' sx={{p:0}}>
+                            <ListItemButton href='/dashboard' sx={{p:0}}>
+                                <ListItemText primary='My Bookshelf' sx={{pl:'8px'}}/>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem key='signout' sx={{p:0}}>
+                            <SignOutButton isListItem={true}/>
+                        </ListItem>
+                        </Box>
+                    }
+                    onUnauthorized={
+                        <ListItem key='signin' sx={{p:0, pl:'8px'}}>
+                            <GoogleSignInButton/>
+                        </ListItem>
+                    }
+                />
+                
+                
             </List>    
         </Box> 
     );
@@ -79,10 +89,7 @@ export const Navbar = (props:NavbarProps)=>{
                     
 
                     {/* Logo that links back to Home */}
-                    
-                    {/* <Box sx={styles.navLogo}> */}
-                         {/* mix react-router-dom and @mui/material links to navigate without refresh and still have 'sx' prop  */}
-                        <Link component={RouterLink} to="/" sx={{alignSelf:'stretch'}}><Logo/></Link>
+                    <Link component={RouterLink} to="/" sx={{alignSelf:'stretch'}}><Logo/></Link>
                     {/* </Box> */}
 
                     {/*/ Button to open menu, only appears on smallest screens */}
@@ -96,10 +103,20 @@ export const Navbar = (props:NavbarProps)=>{
                     </IconButton>
 
                     {/* Horizontal NavList, all but the smallest screens */}
-                    <Box sx={{ display: { xs: 'none', sm: 'block' }}}>
-                        {navItems.map((item) => (
-                            <NavButton key={item.label} to={item.path} sx={styles.navButton}> {item.label} </NavButton>
-                        ))}
+                    <Box sx={{display:{xs:'none',sm:'flex'}, flexDirection:'row', alignItems:'center'}}>
+
+                        <NavButton to='/about' sx={styles.navButton}>About</NavButton>
+                        <NavButton to='/contact' sx={styles.navButton}>Contact</NavButton>
+                        
+                        <CheckAuth
+                            onAuthorized={
+                                <Box>
+                                    <NavButton to='/dashboard' sx={styles.navButton}>My Bookshelf</NavButton>
+                                    <SignOutButton sx={styles.navButton}/>
+                                </Box>
+                            }
+                            onUnauthorized={<GoogleSignInButton/>}
+                        />
                     </Box>
                 </Toolbar>
             </AppBar>

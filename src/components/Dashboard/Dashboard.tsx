@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector as useSelector } from '../../hooks/typed-hooks'
 import { BookState, loadAllBooks, selectBooks, selectBookStatus } from '../../redux/BooksSlice'
 import { store } from '../../redux/store'
 import { UpdateForm } from './UpdateForm'
@@ -95,9 +95,11 @@ export const Dashboard = () => {
         bookData={books} 
         onEditButtonClick={handleUpdateOpen} 
         onDeleteButtonClick={handleDeleteOpen}
-        footerContents = 
+        loading={loading_status==='pending...'}
+        footerContents = {
           <Button variant='contained' color='secondary' onClick={handleCreateOpen} sx={{ml:'8px'}}>Add New Book</Button>
-        />
+        }
+      />
 
 
       { 

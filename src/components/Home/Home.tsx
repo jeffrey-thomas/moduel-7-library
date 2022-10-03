@@ -1,5 +1,7 @@
 import { Box } from '@mui/material';
 import bookshelfImage from '../../images/undraw_bookshelves_re_lxoy.svg';
+import { CheckAuth } from '../Authorization/CheckAuth';
+import { GoogleSignInButton } from '../Authorization/GoogleSignInButton';
 import { NavButton } from '../SharedComponents';
 
 export const Home= () => {
@@ -21,7 +23,11 @@ export const Home= () => {
         height:'auto',
         maxHeight:'70%'
       }}></Box>
-      <NavButton to='/dashboard' variant='contained'>Go to My Bookshelf</NavButton>
+      <CheckAuth
+        onAuthorized={<NavButton to='/dashboard' variant='contained'>Go to My Bookshelf</NavButton>}
+        onUnauthorized={<GoogleSignInButton/>}
+      />
+      
     </Box>
   )
 }

@@ -1,6 +1,5 @@
 import { Close } from "@mui/icons-material";
 import { Alert, AlertColor, Collapse, IconButton } from "@mui/material";
-import { useState } from "react";
 
 export interface DashboardAlertState{
     open:boolean,

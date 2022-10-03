@@ -11,11 +11,11 @@ export const Layout = () => {
     }    
 
     return (
-        <Box sx={styles}>
-            <Navbar height={navbarHeight}/>
-            <Box sx={{ height:`calc(100% - ${navbarHeight})`, mt:`${navbarHeight}` }}>
-                <Outlet/>
+            <Box sx={styles}>
+                <Navbar height={navbarHeight}/>
+                <Box sx={{ height:`calc(100% - ${navbarHeight})`, mt:`${navbarHeight}` }}>
+                    <Outlet/>
+                </Box>
             </Box>
-        </Box>
     )
 }

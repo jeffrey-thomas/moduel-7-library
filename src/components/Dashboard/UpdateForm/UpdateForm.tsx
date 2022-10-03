@@ -54,8 +54,8 @@ export const UpdateForm = (props:UpdateFormProps) =>{
 {}
                     <FormInput field="author" defaultValue={props.book.author}>Author</FormInput>
                     <FormInput field="title" defaultValue={props.book.title}>Title</FormInput>
-                    <FormInput field="year" numeric={true} defaultValue={props.book.year}>Year</FormInput>
-                    <FormInput field="length" numeric={true} defaultValue={props.book.length}>Length</FormInput>
+                    <FormInput field="year" type='number' defaultValue={props.book.year}>Year</FormInput>
+                    <FormInput field="length" type='number' defaultValue={props.book.length}>Length</FormInput>
                     <FormCheckbox field="hardcover" label="Hardcover" defaultChecked={props.book.hardcover}/>
                   
                 </DialogContent>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway&display=block');
+@import url('https://fonts.googleapis.com/css2?family=Raleway&family=Roboto&display=block');
 
 *{
     box-sizing:border-box;
@@ -20,7 +20,8 @@ body, #root{
     flex:1
 }
 
-
-.active{
-    border-bottom:2px solid yellow
+.gLogo{
+    width:36px;
+    height:36px;
 }
+

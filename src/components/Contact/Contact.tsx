@@ -1,4 +1,4 @@
-import { Box } from '@mui/system';
+import { Box } from '@mui/material';
 import { NavButton } from '../SharedComponents';
 
 export const Contact = () => {

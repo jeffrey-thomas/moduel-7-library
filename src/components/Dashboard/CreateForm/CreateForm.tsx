@@ -74,8 +74,8 @@ export const CreateForm = (props:CreateFormProps) =>{
                     <FormInput field="isbn" placeholder="ISBN">ISBN</FormInput>
                     <FormInput field="author" placeholder="Author">Author</FormInput>
                     <FormInput field="title" placeholder="Title">Title</FormInput>
-                    <FormInput field="year" numeric={true} placeholder="2022">Year</FormInput>
-                    <FormInput field="length" numeric={true} placeholder="1">Length</FormInput>
+                    <FormInput field="year" type='number' placeholder="2022">Year</FormInput>
+                    <FormInput field="length" type='number' placeholder="1">Length</FormInput>
                     <FormCheckbox field="hardcover" label="Hardcover"/>
                   
                 </DialogContent>

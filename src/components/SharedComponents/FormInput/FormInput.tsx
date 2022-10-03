@@ -2,9 +2,11 @@ import { TextField, TextFieldProps } from "@mui/material"
 import { Box } from "@mui/system"
 import { useFormContext } from "react-hook-form"
 
-type FormInputProps = { field:string; numeric?:boolean} & TextFieldProps;
+type FormInputType = 'text' | 'number' | 'password';
 
-export const FormInput=({numeric=false,field,...fieldProps}:FormInputProps) => {
+type FormInputProps = TextFieldProps & { field:string, type?:FormInputType};
+
+export const FormInput=({field, type='text', ...textfieldProps}:FormInputProps) => {
 
     // const {field, ...fieldProps } = props;
     const {register } = useFormContext();
@@ -22,8 +24,8 @@ export const FormInput=({numeric=false,field,...fieldProps}:FormInputProps) => {
 
     return (
         <Box sx={style}>
-                    <label htmlFor={`${field}`}>{fieldProps.children}</label>
-                    <TextField  type={numeric? 'number' : 'text'} {...register(`${field}`,{valueAsNumber:numeric})} name={`${field}`} variant='outlined' {...fieldProps}/>  
+                    <label htmlFor={`${field}`}>{textfieldProps.children}</label>
+                    <TextField  type={type} {...register(`${field}`,{valueAsNumber:type==='number'})} name={`${field}`} variant='outlined' {...textfieldProps}/>  
         </Box>
     )
 }
